@@ -14,18 +14,18 @@
 
 The slow inference process of image diffusion models significantly degrades interactive user experiences. We introduce **Diffusion Preview**, a novel preview-and-refine paradigm that generates rapid, low-step preliminary outputs for user evaluation, deferring full-step refinement until the preview is deemed satisfactory. This workflow enables users to quickly iterate through different prompts or random seeds with minimal computational cost, only triggering expensive full-step sampling when a preview meets their expectations.
 
-<div style="text-align: center;">
-<img src="./assets/preview.png" alt="Diffusion Preview framework" style="zoom:50%;" />
-<br>
-<em>Diffusion Preview framework: Fast preview generation followed by full-step refinement.</em>
+<div align="center">
+  <img src="./assets/preview.png" alt="Diffusion Preview framework" width="60%" />
+  <br>
+  <em>Diffusion Preview framework: Fast preview generation followed by full-step refinement.</em>
 </div>
 
 To achieve high-quality and consistent previews, we propose **ConsistencySolver**, a learnable high-order ODE solver derived from Linear Multistep Methods and optimized via Reinforcement Learning. Unlike existing training-free solvers that rely on rigid numerical schemes or distillation methods that sacrifice consistency, ConsistencySolver dynamically adapts its integration strategy to maximize alignment between low-step previews and high-step reference generations, ensuring previews serve as reliable proxies for final outputs.
 
-<div style="text-align: center;">
-<img src="./assets/method.png" alt="Consistency Solver Training Pipeline" style="zoom:50%;" />
-<br>
-<em>Overview of our RL framework for optimizing a learnable ODE solver in diffusion sampling.</em>
+<div align="center">
+  <img src="./assets/method.png" alt="Consistency Solver Training Pipeline" width="100%" />
+  <br>
+  <em>Overview of our RL framework for optimizing a learnable ODE solver in diffusion sampling.</em>
 </div>
 
 ## Results
@@ -34,17 +34,21 @@ Empirical validation demonstrates that ConsistencySolver significantly outperfor
 
 
 
-<div style="text-align: center;">
-<img src="./assets/sd15.png" alt="Quantitative Results on Stable Diffusion v1-5" style="zoom:70%;" />
-<br>
-<em>Quantitative Results on Stable Diffusion v1-5 for Text-to-Image Generation.</em>
+<div align="center">
+  <img src="./assets/sd15.png" alt="Quantitative Results on Stable Diffusion v1-5" width="60%" />
+  <br>
+  <em>Quantitative Results on Stable Diffusion v1-5 for Text-to-Image Generation.</em>
+      <br>
 </div>
 
-<div style="text-align: center;">
-<img src="./assets/flux-kontext.png" alt="Quantitative Results on FLUX-Kontext" style="zoom:70%;" />
-<br>
-<em>Quantitative Results on Flow Matching Model FLUX-Kontext for Instructional Image Editing.</em>
+---
+
+<div align="center">
+  <img src="./assets/flux-kontext.png" alt="Quantitative Results on FLUX-Kontext" width="60%" />
+  <br>
+  <em>Quantitative Results on Flow Matching Model FLUX-Kontext for Instructional Image Editing.</em>
 </div>
+
 ## Setup
 
 ### Stable Diffusion v1-5
