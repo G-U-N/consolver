@@ -1,0 +1,2 @@
+python generate_pretrain.py
+python generate_ours.py
