@@ -2,7 +2,7 @@
 
 \- [Overview](#overview) - [Results](#results) - [Setup](#setup) - [Training](#training) - [Generation & Evaluation](#gen--eval) - [Citation](#citation) - [Contact](#contact)
 
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/XXXX.XXXXX)   [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-000000?logo=huggingface)](https://huggingface.co/wangfuyun)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/2512.13592)   [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-000000?logo=huggingface)](https://huggingface.co/wangfuyun)
 
 > Unofficial implementation
 
