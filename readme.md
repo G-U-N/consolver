@@ -1,6 +1,6 @@
 # Image Diffusion Preview with Consistency Solver
 
-\- [Quick Start](#)  - [Overview](#overview) - [Results](#results) - [Setup](#setup) - [Training](#training) - [Generation & Evaluation](#gen--eval) - [Citation](#citation) - [Contact](#contact)
+\- [Quick Start](#quick-start)  - [Overview](#overview) - [Results](#results) - [Setup](#setup) - [Training](#training) - [Generation & Evaluation](#gen--eval) - [Citation](#citation) - [Contact](#contact)
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/2512.13592)   [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-000000?logo=huggingface)](https://huggingface.co/wangfuyun)
 
