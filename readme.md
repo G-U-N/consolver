@@ -1,6 +1,6 @@
 # Image Diffusion Preview with Consistency Solver
 
-\- [Overview](#overview) - [Results](#results) - [Setup](#setup) - [Training](#training) - [Generation & Evaluation](#gen--eval) - [Citation](#citation) - [Contact](#contact)
+\- [Quick Start](#)  - [Overview](#overview) - [Results](#results) - [Setup](#setup) - [Training](#training) - [Generation & Evaluation](#gen--eval) - [Citation](#citation) - [Contact](#contact)
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg)](https://arxiv.org/abs/2512.13592)   [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-000000?logo=huggingface)](https://huggingface.co/wangfuyun)
 
@@ -9,6 +9,126 @@
 > **Image Diffusion Preview with Consistency Solver**  
 > Fu-Yun Wang¹'², Hao Zhou¹, Liangzhe Yuan¹, Sanghyun Woo¹, Boqing Gong¹, Bohyung Han¹, Ming-Hsuan Yang¹, Han Zhang¹, Yukun Zhu¹, Ting Liu¹, Long Zhao¹  
 > ¹Google DeepMind, ²The Chinese University of Hong Kong
+
+
+
+## Quick Start
+
+```python
+import torch
+from diffusers import StableDiffusionPipeline, DDIMScheduler
+from scheduler_ppo import PPOScheduler  
+from huggingface_hub import hf_hub_download
+
+
+factor_net_path = "[PATH TO THE WEIGHT FILE]"
+
+# We provide an example weight file for the factor net: 
+factor_net_path = hf_hub_download(
+     repo_id="wangfuyun/consolver",
+     filename="model.ckpt"
+)
+print(f"ConSolver factor_net downloaded:{factor_net_path}")
+
+
+model_id = "stable-diffusion-v1-5/stable-diffusion-v1-5"  
+
+scheduler_type = "ddim"  
+
+prompt = "an astronaut is riding a horse on the moon, highly detailed, 8k"
+
+num_inference_steps = 8         
+guidance_scale = 3              
+seed = 43                        
+height = 512
+width = 512
+
+def load_pipeline(scheduler_type):
+    if scheduler_type == "ppo":
+        scheduler = PPOScheduler(
+            beta_end=0.012,
+            beta_schedule="scaled_linear",
+            beta_start=0.00085,
+            num_train_timesteps=1000,
+            steps_offset=1,
+            timestep_spacing="trailing",
+            order_dim=4,
+            scaler_dim=0,
+            use_conv=False,
+            factor_net_kwargs=dict(embedding_dim=64, hidden_dim=256, num_actions=11),
+        )
+    else:
+        scheduler = DDIMScheduler.from_pretrained(
+            model_id, subfolder="scheduler", timestep_spacing="trailing"
+        )
+
+    pipe = StableDiffusionPipeline.from_pretrained(
+        model_id,
+        scheduler=scheduler,
+        # torch_dtype=torch.float16,
+        safety_checker=None, 
+    )
+
+    if scheduler_type == "ppo" and factor_net_path is not None:
+        weight = torch.load(factor_net_path, map_location="cpu")
+        pipe.scheduler.factor_net.load_state_dict(weight)
+        pipe.scheduler.factor_net.to("cuda")
+        
+    pipe = pipe.to("cuda")
+    return pipe
+
+generator = torch.Generator("cuda").manual_seed(seed)
+pipe_ddim = load_pipeline("ddim")
+image_ddim = pipe_ddim(
+    prompt=prompt,
+    num_inference_steps=num_inference_steps,
+    guidance_scale=guidance_scale,
+    generator=generator,
+    height=height,
+    width=width,
+).images[0]
+image_ddim.save("ddim_result.jpg")
+
+
+
+generator = torch.Generator("cuda").manual_seed(seed)
+pipe_ppo = load_pipeline("ppo")
+image_ppo = pipe_ppo(
+    prompt=prompt,
+    num_inference_steps=num_inference_steps,
+    guidance_scale=guidance_scale,
+    generator=generator,
+    height=height,
+    width=width,
+).images[0]
+image_ppo.save("consolver_result.jpg")
+
+```
+
+
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./assets/ddim_result.jpg" alt="DDIM" width="45%" />
+      </td>
+      <td align="center">
+        <img src="./assets/consolver_result.jpg" alt="Consistency Solver" width="45%" />
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <em>DDIM</em>
+      </td>
+      <td align="center">
+        <em>ConsistencySolver</em>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
 
 ## Overview
 
@@ -19,6 +139,7 @@ The slow inference process of image diffusion models significantly degrades inte
   <br>
   <em>Diffusion Preview framework: Fast preview generation followed by full-step refinement.</em>
 </div>
+
 
 To achieve high-quality and consistent previews, we propose **ConsistencySolver**, a learnable high-order ODE solver derived from Linear Multistep Methods and optimized via Reinforcement Learning. Unlike existing training-free solvers that rely on rigid numerical schemes or distillation methods that sacrifice consistency, ConsistencySolver dynamically adapts its integration strategy to maximize alignment between low-step previews and high-step reference generations, ensuring previews serve as reliable proxies for final outputs.
 
