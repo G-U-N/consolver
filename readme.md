@@ -111,10 +111,10 @@ image_ppo.save("consolver_result.jpg")
   <table>
     <tr>
       <td align="center">
-        <img src="./assets/ddim_result.jpg" alt="DDIM" width="45%" />
+        <img src="./assets/ddim_result.jpg" alt="DDIM" width="80%" />
       </td>
       <td align="center">
-        <img src="./assets/consolver_result.jpg" alt="Consistency Solver" width="45%" />
+        <img src="./assets/consolver_result.jpg" alt="Consistency Solver" width="80%" />
       </td>
     </tr>
     <tr>
