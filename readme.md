@@ -329,14 +329,11 @@ Evaluation
 ## Citation
 
 ```bibtext
-@misc{wang2025imagediffusionpreviewconsistency,
-      title={Image Diffusion Preview with Consistency Solver}, 
-      author={Fu-Yun Wang and Hao Zhou and Liangzhe Yuan and Sanghyun Woo and Boqing Gong and Bohyung Han and Ming-Hsuan Yang and Han Zhang and Yukun Zhu and Ting Liu and Long Zhao},
-      year={2025},
-      eprint={2512.13592},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2512.13592}, 
+@article{wang2025image,
+  title={Image Diffusion Preview with Consistency Solver},
+  author={Wang, Fu-Yun and Zhou, Hao and Yuan, Liangzhe and Woo, Sanghyun and Gong, Boqing and Han, Bohyung and Yang, Ming-Hsuan and Zhang, Han and Zhu, Yukun and Liu, Ting and others},
+  journal={arXiv preprint arXiv:2512.13592},
+  year={2025}
 }
 ```
 
