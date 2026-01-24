@@ -178,7 +178,7 @@ Empirical validation demonstrates that ConsistencySolver significantly outperfor
 
 ```bash
 # Create conda environment
-conda create -f env.yaml
+conda env create -f env.yaml
 conda activate preview
 
 # Install CLIP
